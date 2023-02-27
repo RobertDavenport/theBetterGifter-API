@@ -14,11 +14,10 @@ class TheBetterGifterApiStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         # Retrieve the parameter value from AWS SSM
-        openai_api_key = ssm.StringParameter.value_for_secure_string_parameter(
-            self, "openai-api-key", 1
+        # Currently lambda does not support value_for_secure_string from ssm param store
+        openai_secret_api_key = ssm.StringParameter.value_for_string_parameter(
+            self, "openai-secret-key"
         )
-
-        print(openai_api_key)
 
         # Defines an AWS Lambda resource
         my_lambda = _alambda.PythonFunction(
@@ -27,7 +26,10 @@ class TheBetterGifterApiStack(Stack):
             runtime=_lambda.Runtime.PYTHON_3_9,
             index="gifts.py",
             handler='handler',
-            timeout=Duration.seconds(30)
+            timeout=Duration.seconds(30),
+            environment={
+                "OPENAI_API_KEY": openai_secret_api_key
+            }
         )
 
         apigw.LambdaRestApi(

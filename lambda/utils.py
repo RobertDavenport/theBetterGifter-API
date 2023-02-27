@@ -4,8 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-# openai.api_key = os.environ['OPENAI-API-KEY']
-openai.api_key = "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"
+openai.api_key = os.environ['OPENAI_API_KEY']
 
 def generate_suggestion(prompt):
     response = openai.Completion.create(
