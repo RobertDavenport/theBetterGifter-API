@@ -22,7 +22,7 @@ def handler(event, context):
 
     # Call OpenAI function to generate gift suggestions
     openaiResponse = generate_suggestion(
-        f"suggest 3 {occasion} gifts, with price {price}, for my {age} year old {relationship} who likes {hobby}. Example: 'Gift Suggestion 1: Bike Bell. Explanation: A fun way to make bike riding stylish.'")
+        f"suggest 3 thoughtful {occasion} gifts, with price {price}, for my {age} year old {relationship} who likes {hobby}. Example: 'Gift Suggestion 1: <Gift Idea>. Explanation: <Explanation>.'")
     gifts = get_gift_details(openaiResponse)
 
     # Return response in the required format
