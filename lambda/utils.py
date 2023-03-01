@@ -6,7 +6,7 @@ import re
 
 openai.api_key = os.environ['OPENAI_API_KEY']
 
-def generate_suggestion(prompt):
+def generate_suggestion(prompt: str)->str:
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
@@ -25,8 +25,6 @@ def massage_response(response):
     matches = re.findall(pattern, response)
     return [{'Gift': match[1].strip(), 'Explanation': match[2].strip()}
             for match in matches]
-
-
 
 def generate_amazonLink(gift):
     splicedGift = gift.split(' ')
