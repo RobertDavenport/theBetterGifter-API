@@ -8,6 +8,7 @@ from aws_cdk import (
     aws_ssm as ssm,
 )
 
+
 class TheBetterGifterApiStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
@@ -35,4 +36,10 @@ class TheBetterGifterApiStack(Stack):
         apigw.LambdaRestApi(
             self, 'Endpoint',
             handler=my_lambda,
+            default_cors_preflight_options={
+                "allow_origins": apigw.Cors.ALL_ORIGINS,
+                "allow_methods": apigw.Cors.ALL_METHODS,
+                "allow_headers": ["Content-Type"],
+                "max_age": Duration.days(1)
+            }
         )

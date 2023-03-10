@@ -4,15 +4,15 @@ from utils import get_gift_details, generate_suggestion
 
 def handler(event, context):
     query_params = event['queryStringParameters']
-    
+
     if query_params is None:
         return {
-        'statusCode': 500,
-        'headers': {
-            'Content-Type': 'application/json'
-        },
-        'body': {}
-    }
+            'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            'body': {}
+        }
     else:
         occasion = query_params.get('occasion', 'birthday')
         price = query_params.get('price', '50')
@@ -22,7 +22,9 @@ def handler(event, context):
 
     # Call OpenAI function to generate gift suggestions
     openaiResponse = generate_suggestion(
-        f"suggest 3 thoughtful {occasion} gifts, with price {price}, for my {age} year old {relationship} who likes {hobby}. Example: 'Gift Suggestion 1: <Gift Idea>. Explanation: <Explanation>.'")
+        f'3 {occasion} gifts in JSON list format {{gift: gift idea, explanation: reason for purchase}} with price {price} for my {age} year old {relationship} who likes {hobby}'
+    )
+
     gifts = get_gift_details(openaiResponse)
 
     # Return response in the required format
